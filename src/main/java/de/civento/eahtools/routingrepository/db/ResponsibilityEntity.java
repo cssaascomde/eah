@@ -1,12 +1,17 @@
 package de.civento.eahtools.routingrepository.db;
 
+import de.civento.eahtools.routingrepository.base.entities.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Table(name = "responsibility")
-public class ResponsibilityEntity extends AppEntity {
+@Table(name = "responsibility", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_responsibilityentity", columnNames = {"ou_entity_id", "service_entity_id"})
+})
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ResponsibilityEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "ou_entity_id")
     private OuEntity ouEntity;

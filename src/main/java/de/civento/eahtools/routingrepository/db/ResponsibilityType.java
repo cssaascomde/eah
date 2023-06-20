@@ -1,10 +1,18 @@
 package de.civento.eahtools.routingrepository.db;
 
+import lombok.Getter;
+
 public enum ResponsibilityType {
-    municipal,
-    county,
-    chamber,
-    regional_council,
-    single,
-    individual
+
+    municipal("Stadt oder Gemeinde"),
+    county("Landkreis"),
+    chamber("Kammer"),
+    regional_council("Regierungspräsidium"),
+    central("Zentrale Zuständigkeit"),
+    individual("Individuelle Zuordnung der Zuständigkeit");
+
+    @Getter private final String displayType;
+    ResponsibilityType(String displayType) {
+        this.displayType = displayType;
+    }
 }

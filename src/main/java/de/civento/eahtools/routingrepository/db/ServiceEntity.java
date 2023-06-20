@@ -1,15 +1,18 @@
 package de.civento.eahtools.routingrepository.db;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import de.civento.eahtools.routingrepository.base.entities.BaseEntity;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Table(name = "service")
-public class ServiceEntity extends AppEntity {
+@Table(name = "service", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_serviceentity_leika_key", columnNames = {"leika_key"}),
+        @UniqueConstraint(name = "uc_serviceentity_civento_key", columnNames = {"civento_key"})
+})
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ServiceEntity extends BaseEntity {
 
     @Column(name = "leika_key", length = 16)
     @Getter @Setter

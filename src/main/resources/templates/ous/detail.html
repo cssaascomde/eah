@@ -1,0 +1,81 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Dienstleistungen | EAH-Tools</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/shards.min.css">
+</head>
+<body class="container">
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+<!-- Content -->
+<!--/*@thymesVar id="data" type="de.civento.eahtools.routingrepository.impl.ou.Ou"*/-->
+<span th:if="${data.sysModifiedAt == null}"><h1>Neue Organisationseinheit erstellen</h1></span>
+<span th:unless="${data.sysModifiedAt == null}"><h1>Organisationseinheit bearbeiten</h1></span>
+
+<form action="#" th:action="@{/ous/save}" th:object="${data}" method="post">
+    <div class="form-group">
+    <div>
+    <label for="name">Name</label>
+    <input id="name" type="text" class="form-control"
+           placeholder="Bitte den Namen der Organisationseinheit eingeben"
+           required
+           th:field="*{name}" >
+</div>
+    <div>
+    <label for="civentoKey">civento-Schlüssel</label>
+    <input id="civentoKey" type="text" class="form-control"
+           placeholder="Bitte den Schlüssel aus civento eingeben"
+           required
+           th:field="*{civentoKey}" >
+    </div>
+        <div>
+            <label for="regionalKey">Regionalschlüssel</label>
+            <input id="regionalKey" type="text" class="form-control"
+                   placeholder="Bitte den Regionalschlüssel eingeben"
+                   required
+                   th:field="*{regionalKey}" >
+        </div>
+    <div>
+    <label for="type">Typ</label>
+    <select id="type" class="form-control" name="Typ"
+            required
+            th:field="*{type}">
+        <option th:each="type : ${T(de.civento.eahtools.routingrepository.db.OuType).values()}"
+                th:value="${type}" th:text="${type.displayType}"></option>
+    </select>
+    </div>
+    <div>
+        <label for="address">Adresse</label>
+        <input id="address" type="text" class="form-control"
+               placeholder="Bitte geben Sie die Straße, Hausnummer und den Hausnummernzusatz an"
+               th:field="*{address}" >
+        <label for="zipCode">Postleitzahl</label>
+        <input id="zipCode" type="text" class="form-control"
+               placeholder="Bitte geben Sie die Postleitzahl an"
+               th:field="*{zipCode}" >
+        <label for="city">Ort</label>
+        <input id="city" type="text" class="form-control"
+               placeholder="Bitte sie den Ort an"
+               th:field="*{city}" >
+    </div>
+        <input type="hidden" th:field="*{id}" id="id">
+        <input type="hidden" th:field="*{sysModifiedAt}" id="sysModifiedAt">
+        <input type="hidden" th:field="*{sysModifiedBy}" id="sysModifiedBy">
+        <input type="hidden" th:field="*{sysVersion}" id="sysVersion">
+
+        <div>
+        <button class="btn btn-primary" type="submit" th:href="@{/ous/save}">Speichern</button>
+        <a th:href="@{/ous/list}">
+            <button class="btn btn-secondary" type="button">Zurück zur Liste</button>
+        </a>
+    </div>
+    </div>
+</form>
+<!-- Footer-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
