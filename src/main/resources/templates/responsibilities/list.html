@@ -11,20 +11,18 @@
     <link th:rel="stylesheet" th:href="@{assets/select2-develop/dist/css/select2.css}"/>
     <link th:rel="stylesheet" th:href="@{assets/select2-bootstrap4-theme-master/dist/select2-bootstrap4.css}"/>
     <link rel="stylesheet" href="../../css/shards.min.css">
+    <link rel="stylesheet" type="text/css" href="/webjars/select2/css/select2.min.css"/>
 </head>
 <body class="container">
 <div th:replace="~{fragments/header :: header}"></div>
 <h1>Liste der Zuständigkeiten</h1>
 <!--/*@thymesVar id="so" type="de.civento.eahtools.routingrepository.impl.responsibility.ResponsibilitySearchObject"*/-->
-<form method="post" th:action="@{/responsibilities/list}" th:object="${so}">
+<form id="searchForm" method="post" th:action="@{/responsibilities/list}" th:object="${so}">
     <div class="form-group">
         <h2>Suche</h2>
         <div>
             <label for="ouId">Organisationseinheit</label>
-            <select id="ouId" class="form-control" th:field="*{ouId}">
-                <option value=""></option>
-                <option th:each="item : ${ous}"
-                        th:value="${item.id}" th:text="${item.text}"></option>
+            <select id="ouId" class="form-control select2" th:field="*{ouId}" placeholder="Bitte Eingeben">
             </select>
 
             <label for="serviceId">Dienstleistung</label>
@@ -120,40 +118,48 @@
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{assets/select2-develop/dist/js/select2.full.js}"></script>
+<script th:src="@{/webjars/select2/js/select2.min.js}"></script>
+<script src="/webjars/select2/js/i18n/de.js"></script>
 
-<script>
-    $("#ouId").select2({
-        theme: "bootstrap4",
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function() {
+    var lastSelectedOu = localStorage.getItem('lastSelectedOu');
+    var lastSelectedOuId = localStorage.getItem('lastSelectedOuId');
+
+    // If there was a previously selected OU, set it as the selected option
+    // Wenn vorher eine OU ausgewählt worden ist, setze diese als ausgewählte Option
+    if (lastSelectedOu && lastSelectedOuId) {
+        var newOption = new Option(lastSelectedOu, lastSelectedOuId, true, true);
+        $('#ouId').append(newOption).trigger('change');
+    }
+
+    $('#ouId').select2({
+        placeholder: 'Bitte Eingeben',
+        allowClear: true,
         ajax: {
             url: '/responsibilities/ous',
             dataType: 'json',
             delay: 250,
-            processResults: function (response) {
+            processResults: function (data) {
                 return {
-                    results: response
+                    results: data
                 };
             },
             cache: true
-        }
+        },
+        minimumInputLength: 1,
+    }).on('select2:select', function (e) {
+        var data = e.params.data;
+        localStorage.setItem('lastSelectedOu', data.text);
+        localStorage.setItem('lastSelectedOuId', data.id);
+    }).on('select2:unselect', function (e) {
+        localStorage.removeItem('lastSelectedOu');
+        localStorage.removeItem('lastSelectedOuId');
     });
+});
+/*]]>*/
 </script>
 
-<script>
-    $("#services").select2({
-        theme: "bootstrap4",
-        ajax: {
-            url: '/responsibilities/services',
-            dataType: 'json',
-            delay: 250,
-            processResults: function (response) {
-                return {
-                    results: response
-                };
-            },
-            cache: true
-        }
-    });
-</script>
 </body>
 </html>

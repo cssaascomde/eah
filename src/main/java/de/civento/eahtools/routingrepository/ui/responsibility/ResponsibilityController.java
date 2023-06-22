@@ -86,6 +86,7 @@ public class ResponsibilityController {
     }
 
     @GetMapping("/ous")
+    @ResponseBody
     public List<AutoCompleteResult> getOus(@RequestParam(value = "q", required = false) String query) {
         ArrayList<AutoCompleteResult> list = new ArrayList<>();
         OuSearchObject so = new OuSearchObject();
