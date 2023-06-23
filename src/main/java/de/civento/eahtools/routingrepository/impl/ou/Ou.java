@@ -8,6 +8,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Ou extends BusinessObject {
     private String civentoKey;
     private String regionalKey;

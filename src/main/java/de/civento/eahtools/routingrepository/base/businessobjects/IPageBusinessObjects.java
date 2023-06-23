@@ -7,8 +7,8 @@ public interface IPageBusinessObjects<T> {
     void setTotalPages(int totalPages);
     long getTotalElements();
     void setTotalElements(long totalElements);
-    int getNumber();
-    void setNumber(int number);
+    int getPageNumber();
+    void setPageNumber(int number);
     int getSize();
     void setSize(int size);
     List<T> getContent();

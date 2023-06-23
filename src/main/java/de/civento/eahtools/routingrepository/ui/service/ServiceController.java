@@ -6,12 +6,10 @@ import de.civento.eahtools.routingrepository.db.ResponsibilityType;
 import de.civento.eahtools.routingrepository.impl.service.Service;
 import de.civento.eahtools.routingrepository.impl.service.ServiceSearchObject;
 import de.civento.eahtools.routingrepository.impl.service.ServiceService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Scope(value="session")
@@ -69,14 +67,13 @@ public class ServiceController {
         return "redirect:/services/list";
     }
 
-    @NotNull
     private String prepareListView(Model model) {
         IPageBusinessObjects<Service> result = this.service.search(this.searchObject);
         model.addAttribute(ATTRIBUTE_DATA, result.getContent());
         model.addAttribute(ATTRIBUTE_DATA_COUNT, result.getTotalElements());
         model.addAttribute(ATTRIBUTE_SEARCH_OBJECT, this.searchObject);
         model.addAttribute(ATTRIBUTE_PAGE_COUNT, result.getTotalPages());
-        model.addAttribute(ATTRIBUTE_PAGE_CURRENT, result.getNumber());
+        model.addAttribute(ATTRIBUTE_PAGE_CURRENT, result.getPageNumber());
 
         return "services/list";
     }

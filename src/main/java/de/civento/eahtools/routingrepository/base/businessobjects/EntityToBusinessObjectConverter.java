@@ -44,7 +44,7 @@ public abstract class EntityToBusinessObjectConverter
         // Paging - Informationen setzen
         pageOfBusinessObjects.setTotalElements(page.getTotalElements());
         pageOfBusinessObjects.setTotalPages(page.getTotalPages());
-        pageOfBusinessObjects.setNumber(page.getNumber());
+        pageOfBusinessObjects.setPageNumber(page.getNumber());
         pageOfBusinessObjects.setSize(page.getSize());
 
         // Liste erzeugen und konvertieren

@@ -21,7 +21,8 @@ public class ResponsibilityEntity extends BaseEntity {
     @Getter @Setter
     private ServiceEntity serviceEntity;
 
-    @Enumerated
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     @Column(name = "delivery_type", nullable = false)
     @Getter @Setter
     private DeliveryType deliveryType = DeliveryType.internal;

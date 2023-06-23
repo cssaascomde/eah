@@ -8,7 +8,8 @@ public enum OuType {
     county("Landkreis"),
     regional_council("Regierungspräsidium"),
     chamber("Kammer"),
-    other("Sonstige zuständige Stellen");
+    other("Sonstige zuständige Stellen"),
+    unknown ("Unbekannt");
 
     @Getter
     private final String displayType;

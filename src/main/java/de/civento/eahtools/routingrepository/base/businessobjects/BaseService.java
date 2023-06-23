@@ -14,7 +14,7 @@ import java.util.Optional;
 public abstract class BaseService<T extends BusinessObject, E extends BaseEntity> {
     protected abstract JpaRepository<E, String> getRepository();
 
-    protected abstract String getSimpleClassName();
+    protected abstract String getBusinessObjectName();
     protected abstract IPageBusinessObjects<T> convertList(Page<E> page);
     protected abstract T convert(E entity);
     /**
@@ -39,7 +39,7 @@ public abstract class BaseService<T extends BusinessObject, E extends BaseEntity
             return convert(entity.get());
         else
             throw new EntityNotFoundException(LoggingUtils.getRecordNotFoundMsg(
-                    getSimpleClassName(), id));
+                    getBusinessObjectName(), id));
     }
 
     /**

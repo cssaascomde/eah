@@ -32,7 +32,7 @@ public class OuService extends BaseService<Ou, OuEntity> {
     }
 
     @Override
-    protected String getSimpleClassName() {
+    protected String getBusinessObjectName() {
         return Ou.class.getSimpleName();
     }
 
@@ -64,7 +64,7 @@ public class OuService extends BaseService<Ou, OuEntity> {
             return OuService.MAPPER.convert(this.repository.save(entity.get()));
         } else {
             throw new EntityNotFoundException(LoggingUtils.getRecordNotFoundMsg(
-                    getSimpleClassName(), obj.getId()));
+                    getBusinessObjectName(), obj.getId()));
         }
     }
 

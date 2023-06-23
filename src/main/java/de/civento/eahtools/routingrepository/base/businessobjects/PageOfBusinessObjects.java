@@ -22,7 +22,7 @@ public class PageOfBusinessObjects<T> implements IPageBusinessObjects<T> {
     }
 
     @Override
-    public int getNumber() {
+    public int getPageNumber() {
         return number;
     }
 
@@ -47,7 +47,7 @@ public class PageOfBusinessObjects<T> implements IPageBusinessObjects<T> {
     }
 
     @Override
-    public void setNumber(int number) {
+    public void setPageNumber(int number) {
         this.number = number;
     }
 
@@ -63,7 +63,7 @@ public class PageOfBusinessObjects<T> implements IPageBusinessObjects<T> {
 
     @Override
     public <G> IPageBusinessObjects<G> copyTo(IPageBusinessObjects<G> destination, IMapper<T, G> mapper) {
-        destination.setNumber(this.getNumber());
+        destination.setPageNumber(this.getPageNumber());
         destination.setSize(this.getSize());
         destination.setTotalElements(this.getTotalElements());
         destination.setTotalPages(getTotalPages());

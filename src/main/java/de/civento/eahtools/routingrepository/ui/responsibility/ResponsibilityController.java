@@ -10,7 +10,6 @@ import de.civento.eahtools.routingrepository.impl.responsibility.ResponsibilityS
 import de.civento.eahtools.routingrepository.impl.service.Service;
 import de.civento.eahtools.routingrepository.impl.service.ServiceSearchObject;
 import de.civento.eahtools.routingrepository.impl.service.ServiceService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -103,14 +102,13 @@ public class ResponsibilityController {
     }
 
 
-    @NotNull
     private String prepareListView(Model model) {
         IPageBusinessObjects<Responsibility> result = this.service.search(this.searchObject);
         model.addAttribute(ATTRIBUTE_DATA, result.getContent());
         model.addAttribute(ATTRIBUTE_DATA_COUNT, result.getTotalElements());
         model.addAttribute(ATTRIBUTE_SEARCH_OBJECT, this.searchObject);
         model.addAttribute(ATTRIBUTE_PAGE_COUNT, result.getTotalPages());
-        model.addAttribute(ATTRIBUTE_PAGE_CURRENT, result.getNumber());
+        model.addAttribute(ATTRIBUTE_PAGE_CURRENT, result.getPageNumber());
 
         model.addAttribute(ATTRIBUTE_OUS, getOus());
         model.addAttribute(ATTRIBUTE_SERVICES, getServices());

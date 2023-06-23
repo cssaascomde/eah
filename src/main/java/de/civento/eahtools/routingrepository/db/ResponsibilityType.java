@@ -9,7 +9,8 @@ public enum ResponsibilityType {
     chamber("Kammer"),
     regional_council("Regierungspräsidium"),
     central("Zentrale Zuständigkeit"),
-    individual("Individuelle Zuordnung der Zuständigkeit");
+    individual("Individuelle Zuordnung der Zuständigkeit"),
+    unknown("Unbekannt");
 
     @Getter private final String displayType;
     ResponsibilityType(String displayType) {

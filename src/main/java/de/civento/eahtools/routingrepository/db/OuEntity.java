@@ -39,8 +39,7 @@ public class OuEntity extends BaseEntity {
     @Getter @Setter
     private String city;
 
-
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     @Getter @Setter
     private OuType type;

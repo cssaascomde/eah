@@ -8,7 +8,8 @@
     <nav th:fragment="header" class="navbar navbar-expand-md bg-dark navbar-dark">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" th:href="@{/}">EAH-Tools</a>
+                <a class="navbar-brand" th:href="@{/}"
+                   th:text="'EAH-Tools (Version: ' + ${@environment.getProperty('app.version')} + ')'">EAH-Tools</a>
             </div>
             <ul class="nav navbar-nav">
                 <li><a class="nav-link" th:href="@{/services/list}">Dienstleistungen</a></li>

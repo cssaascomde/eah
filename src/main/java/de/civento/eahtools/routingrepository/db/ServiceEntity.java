@@ -6,7 +6,6 @@ import lombok.*;
 
 @Entity
 @Table(name = "service", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_serviceentity_leika_key", columnNames = {"leika_key"}),
         @UniqueConstraint(name = "uc_serviceentity_civento_key", columnNames = {"civento_key"})
 })
 @Builder
@@ -26,12 +25,13 @@ public class ServiceEntity extends BaseEntity {
     @Getter @Setter
     private String name;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "responsibility_type", nullable = false)
     @Getter @Setter
     private ResponsibilityType responsibilityType;
 
-    @Enumerated
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     @Column(name = "delivery_type", nullable = false)
     @Getter @Setter
     private DeliveryType deliveryType = DeliveryType.internal;

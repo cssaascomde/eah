@@ -31,7 +31,7 @@ public class ServiceService extends BaseService<Service, ServiceEntity> {
     }
 
     @Override
-    protected String getSimpleClassName() { return Service.class.getSimpleName(); }
+    protected String getBusinessObjectName() { return Service.class.getSimpleName(); }
 
     @Override
     protected IPageBusinessObjects<Service> convertList(Page<ServiceEntity> page) {
@@ -70,7 +70,7 @@ public class ServiceService extends BaseService<Service, ServiceEntity> {
             return ServiceService.MAPPER.convert(this.repository.save(entity.get()));
         } else {
             throw new EntityNotFoundException(LoggingUtils.getRecordNotFoundMsg(
-                    getSimpleClassName(), obj.getId()));
+                    getBusinessObjectName(), obj.getId()));
         }
     }
 
