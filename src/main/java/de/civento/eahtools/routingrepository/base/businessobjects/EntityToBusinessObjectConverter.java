@@ -45,7 +45,7 @@ public abstract class EntityToBusinessObjectConverter
         pageOfBusinessObjects.setTotalElements(page.getTotalElements());
         pageOfBusinessObjects.setTotalPages(page.getTotalPages());
         pageOfBusinessObjects.setPageNumber(page.getNumber());
-        pageOfBusinessObjects.setSize(page.getSize());
+        pageOfBusinessObjects.setPageSize(page.getSize());
 
         // Liste erzeugen und konvertieren
         pageOfBusinessObjects.setContent(new ArrayList<>());

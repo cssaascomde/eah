@@ -27,7 +27,7 @@ public class PageOfBusinessObjects<T> implements IPageBusinessObjects<T> {
     }
 
     @Override
-    public int getSize() {
+    public int getPageSize() {
         return size;
     }
 
@@ -52,7 +52,7 @@ public class PageOfBusinessObjects<T> implements IPageBusinessObjects<T> {
     }
 
     @Override
-    public void setSize(int size) {
+    public void setPageSize(int size) {
         this.size = size;
     }
 
@@ -64,7 +64,7 @@ public class PageOfBusinessObjects<T> implements IPageBusinessObjects<T> {
     @Override
     public <G> IPageBusinessObjects<G> copyTo(IPageBusinessObjects<G> destination, IMapper<T, G> mapper) {
         destination.setPageNumber(this.getPageNumber());
-        destination.setSize(this.getSize());
+        destination.setPageSize(this.getPageSize());
         destination.setTotalElements(this.getTotalElements());
         destination.setTotalPages(getTotalPages());
         this.getContent().parallelStream().forEach(e -> destination.getContent().add(mapper.convert(e)));

@@ -61,7 +61,7 @@ public class ResponsibilityController {
         model.addAttribute(ATTRIBUTE_DATA, this.service.getById(id));
         model.addAttribute(ATTRIBUTE_OUS, getOus());
         model.addAttribute(ATTRIBUTE_SERVICES, getServices());
-        return "/responsibilities/detail";
+        return "responsibilities/detail";
     }
 
     @GetMapping("/create")
@@ -69,7 +69,7 @@ public class ResponsibilityController {
         model.addAttribute(ATTRIBUTE_DATA, new Responsibility());
         model.addAttribute(ATTRIBUTE_OUS, getOus());
         model.addAttribute(ATTRIBUTE_SERVICES, getServices());
-        return "/responsibilities/detail";
+        return "responsibilities/detail";
     }
 
     @PostMapping("/save")
@@ -113,12 +113,14 @@ public class ResponsibilityController {
         model.addAttribute(ATTRIBUTE_OUS, getOus());
         model.addAttribute(ATTRIBUTE_SERVICES, getServices());
 
-        return "/responsibilities/list";
+        return "responsibilities/list";
     }
 
     private List<AutoCompleteResult> getOus() {
         ArrayList<AutoCompleteResult> list = new ArrayList<>();
-        for (Ou item : this.ouService.search(new OuSearchObject()).getContent()) {
+        OuSearchObject so = new OuSearchObject();
+        so.setWithoutPaging(true);
+        for (Ou item : this.ouService.search(so).getContent()) {
             list.add(AutoCompleteResult.builder().id(item.getId()).text(item.getName()).build());
         }
         return list;
@@ -126,7 +128,9 @@ public class ResponsibilityController {
 
     private List<AutoCompleteResult> getServices() {
         ArrayList<AutoCompleteResult> list = new ArrayList<>();
-        for (Service item : this.serviceService.search(new ServiceSearchObject()).getContent()) {
+        ServiceSearchObject so = new ServiceSearchObject();
+        so.setWithoutPaging(true);
+        for (Service item : this.serviceService.search(so).getContent()) {
             list.add(AutoCompleteResult.builder().id(item.getId()).text(item.getName()).build());
         }
         return list;

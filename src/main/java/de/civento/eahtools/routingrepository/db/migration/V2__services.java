@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class V2__services extends BaseJavaMigration {
 
     @Override
-    public void migrate(Context context) throws Exception {
+    public void migrate(Context context) {
         DecimalFormat codeFormat = new DecimalFormat("00");
         String sql = "insert into service " +
                 "(id, sys_modified_at, sys_modified_by, sys_version, leika_key, civento_key, " +
@@ -28,7 +28,7 @@ public class V2__services extends BaseJavaMigration {
             while (sc.hasNext())  //returns a boolean value
             {
                 i++;
-                String[] values = sc.next().trim().split(";");
+                String[] values = sc.next().trim().split("\\|");
                 if (values.length == 2 && !values[0].startsWith("#")) {
                     stmt.setString(1, values[1]);
                     stmt.setString(2, values[0]);

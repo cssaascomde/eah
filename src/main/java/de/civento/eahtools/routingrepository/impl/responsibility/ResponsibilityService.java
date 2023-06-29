@@ -139,17 +139,17 @@ public class ResponsibilityService extends BaseService<Responsibility, Responsib
             IPageBusinessObjects<de.civento.eahtools.routingrepository.impl.service.Service> result =
                     applicationContext.getBean(ServiceService.class).search(
                             ServiceSearchObject.builder().civentoKey(request.getServiceCiventoKey()).build());
-            if (result.getSize() == 1) {
+            if (result.getTotalElements() == 1) {
                 response.setMsg(String.format("Keine Zuständigkeit mit der Dienstleistung '%s' und dem " +
                                 "Regionalschlüssel '%s' gefunden.",
                         request.getServiceCiventoKey(), request.getOuRegionalKey()));
                 response.setResponsibility(getDefaultResponsibility());
                 response.getResponsibility().setService(result.getContent().get(0));
-            } else if (result.getSize() == 0) {
+            } else if (result.getTotalElements() == 0) {
                 response.setMsg(String.format("Dienstleistung mit der civento-ID '%s' konnte nicht gefunden werden.",
                         request.getServiceCiventoKey()));
                 response.setResponsibility(getDefaultResponsibility());
-            } else if (result.getSize() > 1) {
+            } else if (result.getTotalElements() > 1) {
                 response.setMsg(String.format("Mehrere Dienstleistungen mit der civento-ID '%s' gefunden.",
                         request.getServiceCiventoKey()));
                 response.setResponsibility(getDefaultResponsibility());

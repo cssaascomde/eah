@@ -9,8 +9,8 @@ public interface IPageBusinessObjects<T> {
     void setTotalElements(long totalElements);
     int getPageNumber();
     void setPageNumber(int number);
-    int getSize();
-    void setSize(int size);
+    int getPageSize();
+    void setPageSize(int size);
     List<T> getContent();
     void setContent(List<T> content);
     <G> IPageBusinessObjects<G> copyTo(IPageBusinessObjects<G> destination, IMapper<T, G> mapper);
