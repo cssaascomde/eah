@@ -16,6 +16,8 @@ public class OuModelMapper extends EntityToBusinessObjectConverter<Ou, OuEntity,
         ou.setAddress(entity.getAddress());
         ou.setZipCode(entity.getZipCode());
         ou.setCity(entity.getCity());
+        ou.setEmail(entity.getEmail());
+        ou.setPhone(entity.getPhone());
         Helper.mapDefaultFieldsFromEntityToBusinessObject(entity, ou);
         return ou;
     }

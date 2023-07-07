@@ -14,7 +14,7 @@ public interface ResponsibilityEntityRepository extends JpaRepository<Responsibi
 
     @Query("""
             select r from ResponsibilityEntity r
-            where upper(r.ouEntity.regionalKey) = upper(:regionalKey)
+            where upper(r.regionalKey) = upper(:regionalKey)
             and upper(r.serviceEntity.civentoKey) = upper(:civentoKey)""")
     Optional<ResponsibilityEntity> findByOuRegionalKeyAndServiceCiventoKey(
             @Param("regionalKey") @NonNull String regionalKey,

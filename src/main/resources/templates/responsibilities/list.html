@@ -60,6 +60,7 @@
                         <tr>
                             <th scope="col">Dienstleistung</th>
                             <th scope="col">Organisationseinheit</th>
+                            <th scope="col">Regionalschlüssel</th>
                             <th scope="col">Schnittstellenart</th>
                             <th scope="col">Funktionen</th>
                         </tr>
@@ -67,8 +68,9 @@
 
                     <tbody>
                         <tr th:each="resp : *{data}">
-                            <td th:text="${resp.service.name}">Dienstleistung</td>
+                            <td th:text="${resp.service.name} + ' (' + ${resp.service.civentoKey} + ')'">Dienstleistung</td>
                             <td th:text="${resp.ou.name}">Organisationseinheit</td>
+                            <td th:text="${resp.regionalKey}">Regionalschlüssel</td>
                             <td th:text="${resp.deliveryType.displayType}">Schnittstellenart</td>
                             <td>
                                 <a th:href="@{/responsibilities/detail/{id}(id=${resp.id})}">

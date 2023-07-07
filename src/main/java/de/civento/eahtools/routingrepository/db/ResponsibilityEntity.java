@@ -5,15 +5,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "responsibility", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_responsibilityentity", columnNames = {"ou_entity_id", "service_entity_id"})
-})
+@Table(name = "responsibility")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ResponsibilityEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "ou_entity_id")
+    @Getter @Setter
     private OuEntity ouEntity;
 
     @ManyToOne(optional = false)
@@ -21,19 +20,14 @@ public class ResponsibilityEntity extends BaseEntity {
     @Getter @Setter
     private ServiceEntity serviceEntity;
 
+    @Column(name = "regional_key", length = 12, nullable = false)
+    @Getter @Setter
+    private String regionalKey;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "delivery_type", nullable = false)
     @Getter @Setter
     private DeliveryType deliveryType = DeliveryType.internal;
-
-    public OuEntity getOuEntity() {
-        return ouEntity;
-    }
-
-    public void setOuEntity(OuEntity ouEntity) {
-        this.ouEntity = ouEntity;
-    }
-
 
 }

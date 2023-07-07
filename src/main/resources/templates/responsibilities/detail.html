@@ -33,6 +33,11 @@
                     th:value="${item.id}" th:text="${item.text}"></option>
         </select>
 
+        <label for="regionalKey">Regionalschlüssel</label>
+        <input id="regionalKey" type="text" class="form-control"
+               placeholder="Bitte Sie den Regionalschlüssel an" required
+               th:field="*{regionalKey}" >
+
         <label for="deliveryType">Schnittstellenart</label>
         <select id="deliveryType" class="form-control" name="Schnittstellenart"
                 th:field="*{deliveryType}">

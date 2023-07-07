@@ -6,11 +6,13 @@ CREATE TABLE ou
     sys_modified_by varchar(255) NOT NULL,
     sys_modified_at datetime     NOT NULL,
     civento_key     varchar(128),
-    regional_key    varchar(8),
+    regional_key    varchar(12),
     name            varchar(512) NOT NULL,
     address         varchar(512),
     zip_code        varchar(5),
     city            varchar(128),
+    email           varchar(256),
+    phone           varchar(32),
     type            varchar(255) NOT NULL,
     CONSTRAINT pk_ou PRIMARY KEY (id)
 )
@@ -52,13 +54,10 @@ CREATE TABLE responsibility
     sys_modified_at   datetime     NOT NULL,
     ou_entity_id      varchar(255),
     service_entity_id varchar(255),
+    regional_key      varchar(12) NOT NULL,
     delivery_type     varchar(255) NOT NULL,
     CONSTRAINT pk_responsibility PRIMARY KEY (id)
 )
-GO
-
-ALTER TABLE responsibility
-    ADD CONSTRAINT uc_responsibilityentity UNIQUE (ou_entity_id, service_entity_id)
 GO
 
 ALTER TABLE responsibility

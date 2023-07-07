@@ -16,4 +16,5 @@ public class Responsibility extends BusinessObject {
     private Service service;
     @Builder.Default
     private DeliveryType deliveryType = DeliveryType.internal;
+    private String regionalKey;
 }

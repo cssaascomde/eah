@@ -16,5 +16,7 @@ public class Ou extends BusinessObject {
     private String address;
     private String zipCode;
     private String city;
+    private String email;
+    private String phone;
     private OuType type;
 }

@@ -47,9 +47,9 @@ class ResponsibilityServiceTest {
     @Test
     void create() {
         createDefaultData();
-        this.service.create(Responsibility.builder().ou(kommune).service(service1).build());
-        this.service.create(Responsibility.builder().ou(kommune).service(service2).build());
-        this.service.create(Responsibility.builder().ou(kommune).service(service3).build());
+        this.service.create(Responsibility.builder().regionalKey("06999999").ou(kommune).service(service1).build());
+        this.service.create(Responsibility.builder().regionalKey("06999999").ou(kommune).service(service2).build());
+        this.service.create(Responsibility.builder().regionalKey("06999999").ou(kommune).service(service3).build());
 
         assertEquals(3, this.service.search(new ResponsibilitySearchObject()).getTotalElements());
     }
@@ -58,7 +58,7 @@ class ResponsibilityServiceTest {
     void update() {
         createDefaultData();
         Responsibility responsibility = this.service.create(
-                Responsibility.builder().ou(kommune).service(service1).build());
+                Responsibility.builder().regionalKey("06999999").ou(kommune).service(service1).build());
         responsibility.setOu(landkreis);
         Responsibility updated = this.service.update(responsibility);
         assertEquals("Landkreis", updated.getOu().getName());
@@ -67,9 +67,9 @@ class ResponsibilityServiceTest {
     @Test
     void search() {
         createDefaultData();
-        this.service.create(Responsibility.builder().ou(kommune).service(service1).build());
-        this.service.create(Responsibility.builder().ou(kommune).service(service2).build());
-        this.service.create(Responsibility.builder().ou(kommune).service(service3).build());
+        this.service.create(Responsibility.builder().regionalKey("06999999").ou(kommune).service(service1).build());
+        this.service.create(Responsibility.builder().regionalKey("06999999").ou(kommune).service(service2).build());
+        this.service.create(Responsibility.builder().regionalKey("06999999").ou(kommune).service(service3).build());
 
         assertEquals(
                 3, this.service.search(
@@ -119,10 +119,10 @@ class ResponsibilityServiceTest {
     @Test
     void processLookupRequest() {
         createDefaultData();
-        this.service.create(Responsibility.builder().ou(kommune).service(service1).build());
-        this.service.create(Responsibility.builder().ou(landkreis).service(service2).build());
-        this.service.create(Responsibility.builder().ou(rp).service(service3).build());
-        this.service.create(Responsibility.builder().ou(zentral).service(service4).build());
+        this.service.create(Responsibility.builder().regionalKey("06999999").ou(kommune).service(service1).build());
+        this.service.create(Responsibility.builder().regionalKey("06999").ou(landkreis).service(service2).build());
+        this.service.create(Responsibility.builder().regionalKey("069").ou(rp).service(service3).build());
+        this.service.create(Responsibility.builder().regionalKey("0").ou(zentral).service(service4).build());
 
         Responsibility responsibility;
         responsibility = this.service.processLookupRequest(ResponsibilityLookupRequest.builder()

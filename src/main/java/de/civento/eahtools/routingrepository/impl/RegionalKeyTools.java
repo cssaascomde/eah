@@ -18,6 +18,10 @@ public class RegionalKeyTools {
     }
 
     public static String getRegionalCouncilKey(String regionalKey) {
+        return formatRegionalKeyPart(regionalKey, 3);
+    }
+
+    public static String getState(String regionalKey) {
         return formatRegionalKeyPart(regionalKey, 2);
     }
 

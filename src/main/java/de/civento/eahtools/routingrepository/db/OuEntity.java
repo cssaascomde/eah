@@ -19,7 +19,7 @@ public class OuEntity extends BaseEntity {
     @Getter @Setter
     private String civentoKey;
 
-    @Column(name = "regional_key", length = 8)
+    @Column(name = "regional_key", length = 12)
     @Getter @Setter
     private String regionalKey;
 
@@ -27,17 +27,25 @@ public class OuEntity extends BaseEntity {
     @Getter @Setter
     private String name;
 
-    @Column(name = "address", nullable = true, length = 512)
+    @Column(name = "address", length = 512)
     @Getter @Setter
     private String address;
 
-    @Column(name = "zip_code", nullable = true, length = 5)
+    @Column(name = "zip_code", length = 5)
     @Getter @Setter
     private String zipCode;
 
-    @Column(name = "city", nullable = true, length = 128)
+    @Column(name = "city", length = 128)
     @Getter @Setter
     private String city;
+
+    @Column(name = "email", length = 256)
+    @Getter @Setter
+    private String email;
+
+    @Column(name = "phone", length = 32)
+    @Getter @Setter
+    private String phone;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)

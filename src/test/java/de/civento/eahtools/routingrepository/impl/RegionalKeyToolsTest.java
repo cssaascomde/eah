@@ -12,7 +12,7 @@ class RegionalKeyToolsTest {
         Assertions.assertEquals(RegionalKeyTools.getCompleteRegionalKey(regionalKey), "123456789012");
         Assertions.assertEquals(RegionalKeyTools.getMunicipalKey(regionalKey), "12345678");
         Assertions.assertEquals(RegionalKeyTools.getCountyKey(regionalKey), "12345");
-        Assertions.assertEquals(RegionalKeyTools.getRegionalCouncilKey(regionalKey), "12");
+        Assertions.assertEquals(RegionalKeyTools.getRegionalCouncilKey(regionalKey), "123");
     }
     @Test
     void testWithLength12() {
@@ -20,7 +20,8 @@ class RegionalKeyToolsTest {
         Assertions.assertEquals(RegionalKeyTools.getCompleteRegionalKey(regionalKey), "123456789012");
         Assertions.assertEquals(RegionalKeyTools.getMunicipalKey(regionalKey), "12345678");
         Assertions.assertEquals(RegionalKeyTools.getCountyKey(regionalKey), "12345");
-        Assertions.assertEquals(RegionalKeyTools.getRegionalCouncilKey(regionalKey), "12");
+        Assertions.assertEquals(RegionalKeyTools.getRegionalCouncilKey(regionalKey), "123");
+        Assertions.assertEquals(RegionalKeyTools.getState(regionalKey), "12");
     }
 
     @Test
@@ -29,7 +30,8 @@ class RegionalKeyToolsTest {
         Assertions.assertEquals(RegionalKeyTools.getCompleteRegionalKey(regionalKey), "123456780000");
         Assertions.assertEquals(RegionalKeyTools.getMunicipalKey(regionalKey), "12345678");
         Assertions.assertEquals(RegionalKeyTools.getCountyKey(regionalKey), "12345");
-        Assertions.assertEquals(RegionalKeyTools.getRegionalCouncilKey(regionalKey), "12");
+        Assertions.assertEquals(RegionalKeyTools.getRegionalCouncilKey(regionalKey), "123");
+        Assertions.assertEquals(RegionalKeyTools.getState(regionalKey), "12");
     }
     @Test
     void testWithLength5() {
@@ -37,7 +39,8 @@ class RegionalKeyToolsTest {
         Assertions.assertEquals(RegionalKeyTools.getCompleteRegionalKey(regionalKey), "123450000000");
         Assertions.assertEquals(RegionalKeyTools.getMunicipalKey(regionalKey), "12345000");
         Assertions.assertEquals(RegionalKeyTools.getCountyKey(regionalKey), "12345");
-        Assertions.assertEquals(RegionalKeyTools.getRegionalCouncilKey(regionalKey), "12");
+        Assertions.assertEquals(RegionalKeyTools.getRegionalCouncilKey(regionalKey), "123");
+        Assertions.assertEquals(RegionalKeyTools.getState(regionalKey), "12");
     }
     @Test
     void testWithLength2() {
@@ -45,16 +48,13 @@ class RegionalKeyToolsTest {
         Assertions.assertEquals(RegionalKeyTools.getCompleteRegionalKey(regionalKey), "120000000000");
         Assertions.assertEquals(RegionalKeyTools.getMunicipalKey(regionalKey), "12000000");
         Assertions.assertEquals(RegionalKeyTools.getCountyKey(regionalKey), "12000");
-        Assertions.assertEquals(RegionalKeyTools.getRegionalCouncilKey(regionalKey), "12");
+        Assertions.assertEquals(RegionalKeyTools.getRegionalCouncilKey(regionalKey), "120");
+        Assertions.assertEquals(RegionalKeyTools.getState(regionalKey), "12");
     }
 
+    @Test
     void testWithLengthNULL() {
-        Assertions.assertThrows(IllegalArgumentException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                RegionalKeyTools.getCompleteRegionalKey(null);
-            }
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> RegionalKeyTools.getCompleteRegionalKey(null));
     }
 
 }

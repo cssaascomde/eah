@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.civento</groupId>
 	<artifactId>eah-tools</artifactId>
-	<version>0.9.0</version>
+	<version>0.9.1</version>
 	<name>eah-tools</name>
 	<description>eah-tools</description>
 	<properties>
@@ -78,13 +78,6 @@
 			<artifactId>jaxb-impl</artifactId>
 			<version>4.0.0</version>
 		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.32</version>
-		</dependency>
-
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>

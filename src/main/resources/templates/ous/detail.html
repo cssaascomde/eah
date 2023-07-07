@@ -59,8 +59,16 @@
                th:field="*{zipCode}" >
         <label for="city">Ort</label>
         <input id="city" type="text" class="form-control"
-               placeholder="Bitte sie den Ort an"
+               placeholder="Bitte Sie den Ort an"
                th:field="*{city}" >
+        <label for="email">E-Mail</label>
+        <input id="email" type="text" class="form-control"
+               placeholder="Bitte Sie die E-Mail-Adresse an"
+               th:field="*{email}" >
+        <label for="phone">E-Mail</label>
+        <input id="phone" type="text" class="form-control"
+               placeholder="Bitte Sie die Telefonnummer an"
+               th:field="*{phone}" >
     </div>
         <input type="hidden" th:field="*{id}" id="id">
         <input type="hidden" th:field="*{sysModifiedAt}" id="sysModifiedAt">

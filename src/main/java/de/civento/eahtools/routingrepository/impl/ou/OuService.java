@@ -85,5 +85,7 @@ public class OuService extends BaseService<Ou, OuEntity> {
         entity.setAddress(obj.getAddress());
         entity.setZipCode(obj.getZipCode());
         entity.setCity(obj.getCity());
+        entity.setEmail(obj.getEmail());
+        entity.setPhone(obj.getPhone());
     }
 }

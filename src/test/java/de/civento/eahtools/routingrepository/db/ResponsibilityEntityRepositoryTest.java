@@ -34,9 +34,9 @@ class ResponsibilityEntityRepositoryTest {
                 OuEntity.builder().name("Test2").civentoKey("00.00.98")
                         .type(OuType.other).build());
         repository.save(ResponsibilityEntity.builder().ouEntity(ou1).serviceEntity(service)
-                .deliveryType(DeliveryType.internal).build());
+                .deliveryType(DeliveryType.internal).regionalKey("06999999").build());
         repository.save(ResponsibilityEntity.builder().ouEntity(ou2).serviceEntity(service)
-                .deliveryType(DeliveryType.internal).build());
+                .deliveryType(DeliveryType.internal).regionalKey("06999999").build());
         repository.search(null, null, null, Pageable.ofSize(10));
         repository.search(null, null, null, Pageable.ofSize(10));
     }

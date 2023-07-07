@@ -59,6 +59,7 @@ public class ResponsibilityService extends BaseService<Responsibility, Responsib
     public Responsibility create(@NonNull Responsibility obj) {
         ResponsibilityEntity entity = new ResponsibilityEntity();
         entity.setDeliveryType(obj.getDeliveryType());
+        entity.setRegionalKey(obj.getRegionalKey());
 
         if (obj.getService() != null) {
             entity.setServiceEntity(this.applicationContext.getBean(ServiceEntityRepository.class)
@@ -85,6 +86,7 @@ public class ResponsibilityService extends BaseService<Responsibility, Responsib
             }
 
             entity.setDeliveryType(obj.getDeliveryType());
+            entity.setRegionalKey(obj.getRegionalKey());
             entity.setSysVersion(obj.getSysVersion());
 
 
@@ -162,6 +164,7 @@ public class ResponsibilityService extends BaseService<Responsibility, Responsib
         return new Responsibility(
                 Ou.builder().civentoKey(OU_CIVENTO_KEY).build(),
                 null,
-                DeliveryType.internal);
+                DeliveryType.internal,
+                "06??????");
     }
 }
