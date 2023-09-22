@@ -11,6 +11,7 @@ import de.civento.eahtools.routingrepository.impl.service.ServiceService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.NonNull;
+import lombok.extern.java.Log;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
+@Log
 public class ResponsibilityService extends BaseService<Responsibility, ResponsibilityEntity> {
     private static final String OU_CIVENTO_KEY = "00.00.EAH.ZS.9999";
     private static final String DEFAULT_CENTRAL_REGIONAL_KEY = "0";
@@ -59,6 +61,7 @@ public class ResponsibilityService extends BaseService<Responsibility, Responsib
     public Responsibility create(@NonNull Responsibility obj) {
         ResponsibilityEntity entity = new ResponsibilityEntity();
         entity.setDeliveryType(obj.getDeliveryType());
+        entity.setInterfaceType(obj.getInterfaceType());
         entity.setRegionalKey(obj.getRegionalKey());
 
         if (obj.getService() != null) {
@@ -86,6 +89,7 @@ public class ResponsibilityService extends BaseService<Responsibility, Responsib
             }
 
             entity.setDeliveryType(obj.getDeliveryType());
+            entity.setInterfaceType(obj.getInterfaceType());
             entity.setRegionalKey(obj.getRegionalKey());
             entity.setSysVersion(obj.getSysVersion());
 
@@ -103,6 +107,7 @@ public class ResponsibilityService extends BaseService<Responsibility, Responsib
                 StringUtils.hasLength(so.getOuId()) ? so.getOuId() : null,
                 StringUtils.hasLength(so.getServiceId()) ? so.getServiceId() : null,
                 so.getDeliveryType(),
+                StringUtils.hasLength(so.getRegionalKey()) ? so.getRegionalKey() : null,
                 so.isWithoutPaging() ? Pageable.unpaged() : PageRequest.of(so.getPageNumber(), so.getPageSize())));
     }
 
@@ -110,53 +115,67 @@ public class ResponsibilityService extends BaseService<Responsibility, Responsib
         ResponsibilityLookupResponse response = ResponsibilityLookupResponse.builder()
                 .responsibility(new Responsibility()).build();
 
-        // Suche der Zuständigkeit: Kommunal
-        ResponsibilityEntity entity;
-        entity = this.repository.findByOuRegionalKeyAndServiceCiventoKey(
-                RegionalKeyTools.getMunicipalKey(request.getOuRegionalKey()),
-                request.getServiceCiventoKey()).orElse(null);
-        // Suche der Zuständigkeit: Landkreis
-        if (entity == null) {
+        try {
+
+            // Suche der Zuständigkeit: Kommunal
+            ResponsibilityEntity entity;
             entity = this.repository.findByOuRegionalKeyAndServiceCiventoKey(
-                    RegionalKeyTools.getCountyKey(request.getOuRegionalKey()),
+                    RegionalKeyTools.getMunicipalKey(request.getOuRegionalKey()),
                     request.getServiceCiventoKey()).orElse(null);
-        }
-        // Suche der Zuständigkeit: Regierungsbezirk
-        if (entity == null) {
-            entity = this.repository.findByOuRegionalKeyAndServiceCiventoKey(
-                    RegionalKeyTools.getRegionalCouncilKey(request.getOuRegionalKey()),
-                    request.getServiceCiventoKey()).orElse(null);
-        }
-        // Suche der Zuständigkeit: Zentral
-        if (entity == null) {
-            entity = this.repository.findByOuRegionalKeyAndServiceCiventoKey(
-                    DEFAULT_CENTRAL_REGIONAL_KEY,
-                    request.getServiceCiventoKey()).orElse(null);
-        }
-        if (entity != null) {
-            response.setSuccessful(true);
-            response.setResponsibility(convert(entity));
-        } else {
-            // Fehlerbehandlung
-            IPageBusinessObjects<de.civento.eahtools.routingrepository.impl.service.Service> result =
-                    applicationContext.getBean(ServiceService.class).search(
-                            ServiceSearchObject.builder().civentoKey(request.getServiceCiventoKey()).build());
-            if (result.getTotalElements() == 1) {
-                response.setMsg(String.format("Keine Zuständigkeit mit der Dienstleistung '%s' und dem " +
-                                "Regionalschlüssel '%s' gefunden.",
-                        request.getServiceCiventoKey(), request.getOuRegionalKey()));
-                response.setResponsibility(getDefaultResponsibility());
-                response.getResponsibility().setService(result.getContent().get(0));
-            } else if (result.getTotalElements() == 0) {
-                response.setMsg(String.format("Dienstleistung mit der civento-ID '%s' konnte nicht gefunden werden.",
-                        request.getServiceCiventoKey()));
-                response.setResponsibility(getDefaultResponsibility());
-            } else if (result.getTotalElements() > 1) {
-                response.setMsg(String.format("Mehrere Dienstleistungen mit der civento-ID '%s' gefunden.",
-                        request.getServiceCiventoKey()));
-                response.setResponsibility(getDefaultResponsibility());
+            // Suche der Zuständigkeit: Landkreis
+            if (entity == null) {
+                entity = this.repository.findByOuRegionalKeyAndServiceCiventoKey(
+                        RegionalKeyTools.getCountyKey(request.getOuRegionalKey()),
+                        request.getServiceCiventoKey()).orElse(null);
             }
+            // Suche der Zuständigkeit: Regierungsbezirk
+            if (entity == null) {
+                entity = this.repository.findByOuRegionalKeyAndServiceCiventoKey(
+                        RegionalKeyTools.getRegionalCouncilKey(request.getOuRegionalKey()),
+                        request.getServiceCiventoKey()).orElse(null);
+            }
+            // Suche der Zuständigkeit: Zentral
+            if (entity == null) {
+                entity = this.repository.findByOuRegionalKeyAndServiceCiventoKey(
+                        DEFAULT_CENTRAL_REGIONAL_KEY,
+                        request.getServiceCiventoKey()).orElse(null);
+            }
+            if (entity != null) {
+                response.setSuccessful(true);
+                response.setResponsibility(convert(entity));
+            } else {
+                // Fehlerbehandlung
+                IPageBusinessObjects<de.civento.eahtools.routingrepository.impl.service.Service> result =
+                        applicationContext.getBean(ServiceService.class).search(
+                                ServiceSearchObject.builder().civentoKey(request.getServiceCiventoKey()).build());
+                if (result.getTotalElements() == 1) {
+                    response.setMsg(String.format("Keine Zuständigkeit mit der Dienstleistung '%s' und dem " +
+                                    "Regionalschlüssel '%s' gefunden.",
+                            request.getServiceCiventoKey(), request.getOuRegionalKey()));
+                    response.setResponsibility(getDefaultResponsibility());
+                    response.getResponsibility().setService(result.getContent().get(0));
+                } else if (result.getTotalElements() == 0) {
+                    response.setMsg(String.format("Dienstleistung mit der civento-ID '%s' konnte nicht gefunden werden.",
+                            request.getServiceCiventoKey()));
+                    response.setResponsibility(getDefaultResponsibility());
+                } else if (result.getTotalElements() > 1) {
+                    response.setMsg(String.format("Mehrere Dienstleistungen mit der civento-ID '%s' gefunden.",
+                            request.getServiceCiventoKey()));
+                    response.setResponsibility(getDefaultResponsibility());
+                }
+            }
+        } catch (Exception e) {
+            log.severe(".processLookupRequest: " + e.getMessage());
+            response.setSuccessful(false);
+            response.setMsg(e.getMessage());
+            response.setResponsibility(getDefaultResponsibility());
         }
+
+        // Sonderzeichen entfernen
+        response.getResponsibility().getOu().setCiventoKey(
+                response.getResponsibility().getOu().getCiventoKey().replace("_", "")
+        );
+
         return response;
     }
 
@@ -165,6 +184,7 @@ public class ResponsibilityService extends BaseService<Responsibility, Responsib
                 Ou.builder().civentoKey(OU_CIVENTO_KEY).build(),
                 null,
                 DeliveryType.internal,
-                "06??????");
+                "06??????",
+                null);
     }
 }

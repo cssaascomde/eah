@@ -37,7 +37,7 @@ class ResponsibilityEntityRepositoryTest {
                 .deliveryType(DeliveryType.internal).regionalKey("06999999").build());
         repository.save(ResponsibilityEntity.builder().ouEntity(ou2).serviceEntity(service)
                 .deliveryType(DeliveryType.internal).regionalKey("06999999").build());
-        repository.search(null, null, null, Pageable.ofSize(10));
-        repository.search(null, null, null, Pageable.ofSize(10));
+        repository.search(null, null, null, null, Pageable.ofSize(10));
+        repository.search(null, null, null, null, Pageable.ofSize(10));
     }
 }

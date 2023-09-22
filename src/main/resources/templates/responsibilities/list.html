@@ -42,6 +42,10 @@
                         th:value="${deliveryType}" th:text="${deliveryType.displayType}"></option>
             </select>
 
+            <label for="regionalKey">Regionalschlüssel</label>
+            <input id="regionalKey" type="text" class="form-control"
+                   th:field="*{regionalKey}">
+
             <br>
             <input class="btn btn-primary btn-lg btn-block" type="submit" value="Suche"/>
         </div>

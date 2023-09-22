@@ -69,52 +69,21 @@ public class V2__data extends BaseJavaMigration {
                 stmt.addBatch();
             }
             int updateCount = stmt.executeBatch().length;
-            log.info(String.format(".migrate: %d Services imporiert", updateCount));
+            log.info(String.format(".migrate: %d Services importiert", updateCount));
         }
 
-        // Zustänidgkeiten verarbeiten
-        try (PreparedStatement stmt = context.getConnection().prepareStatement(INSERT_RESPONSIBILITY)) {
-            Scanner sc = new Scanner(Objects.requireNonNull(
-                    this.getClass().getResourceAsStream("/db/default_data/data.csv")));
-            sc.useDelimiter(System.lineSeparator());
+        // Zuständigkeiten verarbeiten
+        processResposibility(context,
+                "/db/default_data/data_kommunen.csv",
+                regionalKeyMap,
+                ous,
+                services);
+        processResposibility(context,
+                "/db/default_data/data_dolmetscher.csv",
+                regionalKeyMap,
+                ous,
+                services);
 
-            int i = 0;
-            while (sc.hasNext())  //returns a boolean value
-            {
-                i++;
-                String[] values = sc.next().trim().split(SPLITTER);
-                if (!values[0].startsWith("#")) {
-                    // Gebiet für die Zuständigkeit
-                    String areaRegionalKey = regionalKeyMap.getOrDefault(values[4], null);
-                    if (StringUtils.hasLength(areaRegionalKey)) {
-                        // Zuständige Organisationseinheit
-                        Optional<ImportDataOu> ou = ous.stream().filter(o -> o.getName().equalsIgnoreCase(values[6])).findFirst();
-                        if (ou.isPresent()) {
-                            Optional<ImportDataService> service = services.stream().filter(
-                                    s -> s.getId().equalsIgnoreCase(values[7])).findFirst();
-                            if (service.isPresent()) {
-                                stmt.setString(1, ou.get().getUuid());
-                                stmt.setString(2, service.get().getUuid());
-                                stmt.setString(3, areaRegionalKey);
-
-                                stmt.addBatch();
-
-                            } else {
-                                log.severe(String.format(".migrate: Zur ID '%s' konnte keine Diensleitung ermittelt werden",
-                                        values[7]));
-                            }
-                        } else {
-                            log.severe(String.format(".migrate: Zum Name '%s' konnte keine Organisationseinheit ermittelt werden",
-                                    values[6]));
-                        }
-                    } else {
-                        log.severe(String.format(".migrate: Zum Gebiet '%s' konnte keine AGS ermittelt werden", values[4]));
-                    }
-                }
-            }
-            int updateCount = stmt.executeBatch().length;
-            log.info(String.format(".migrate: %d Zuständigkeiten imporiert", updateCount));
-        }
     }
 
     private List<ImportDataOu> getOus(Map<String, String> regionalKeys) {
@@ -127,7 +96,7 @@ public class V2__data extends BaseJavaMigration {
         {
             String[] values = sc.next().trim().split(SPLITTER);
             ous.add(ImportDataOu.builder()
-                    .id(String.format("00.00.EAH.ZS.%s", values[7]))
+                    .id(values[7])
                     .phone(values[6])
                     .email(values[5])
                     .address(String.format("%s %s", values[3], values[4]))
@@ -140,6 +109,64 @@ public class V2__data extends BaseJavaMigration {
         }
         sc.close();
         return ous;
+    }
+
+    private void processResposibility(Context context, String source,
+                                      Map<String, String> regionalKeyMap,
+                                      List<ImportDataOu> ous,
+                                      List<ImportDataService> services
+                                      ) throws SQLException {
+        try (PreparedStatement stmt = context.getConnection().prepareStatement(INSERT_RESPONSIBILITY)) {
+            Scanner sc = new Scanner(Objects.requireNonNull(
+                    this.getClass().getResourceAsStream(source)));
+            sc.useDelimiter(System.lineSeparator());
+
+            List<String> missingServices = new ArrayList<>();
+            List<String> missingOus = new ArrayList<>();
+
+            int i = 0;
+            while (sc.hasNext())  //returns a boolean value
+            {
+                i++;
+                String[] values = sc.next().trim().split(SPLITTER);
+                if (!values[0].startsWith("#")) {
+                    // Gebiet für die Zuständigkeit
+                    String areaRegionalKey = regionalKeyMap.getOrDefault(values[4], null);
+                    if (StringUtils.hasLength(areaRegionalKey)) {
+                        // Zuständige Organisationseinheit
+                        Optional<ImportDataOu> ou = ous.stream().filter(o -> o.getId().equalsIgnoreCase(values[8])).findFirst();
+                        if (ou.isPresent()) {
+                            Optional<ImportDataService> service = services.stream().filter(
+                                    s -> s.getId().equalsIgnoreCase(values[7])).findFirst();
+                            if (service.isPresent()) {
+                                stmt.setString(1, ou.get().getUuid());
+                                stmt.setString(2, service.get().getUuid());
+                                stmt.setString(3, areaRegionalKey);
+
+                                stmt.addBatch();
+
+                            } else {
+                                if (!missingServices.contains(values[7])) {
+                                    log.severe(String.format(".migrate: Zur ID '%s' konnte keine Dienstleitung ermittelt werden",
+                                        values[7]));
+                                    missingServices.add(values[7]);
+                                }
+                            }
+                        } else {
+                            if (!missingOus.contains(values[8])) {
+                                log.severe(String.format(".migrate: Zum Name '%s' konnte keine Organisationseinheit ermittelt werden",
+                                        values[8]));
+                                missingOus.add(values[8]);
+                            }
+                        }
+                    } else {
+                        log.severe(String.format(".migrate: Zum Gebiet '%s' konnte keine AGS ermittelt werden", values[4]));
+                    }
+                }
+            }
+            int updateCount = stmt.executeBatch().length;
+            log.info(String.format(".migrate: %d Zuständigkeiten aus %s importiert", updateCount, source));
+        }
     }
 
     private List<ImportDataService> getServices() {

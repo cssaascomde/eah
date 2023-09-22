@@ -17,6 +17,7 @@ public class ResponsibilityModelMapper extends EntityToBusinessObjectConverter<R
         Responsibility responsibility = new Responsibility();
         Helper.mapDefaultFieldsFromEntityToBusinessObject(entity, responsibility);
         responsibility.setDeliveryType(entity.getDeliveryType());
+        responsibility.setInterfaceType(entity.getInterfaceType());
         responsibility.setRegionalKey(entity.getRegionalKey());
         responsibility.setOu(OU_MODEL_MAPPER.convert(entity.getOuEntity()));
         responsibility.setService(SERVICE_MODEL_MAPPER.convert(entity.getServiceEntity()));

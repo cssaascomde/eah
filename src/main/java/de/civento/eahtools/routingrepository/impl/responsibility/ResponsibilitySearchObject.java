@@ -12,5 +12,6 @@ import lombok.*;
 public class ResponsibilitySearchObject extends SearchObject {
     private String ouId;
     private String serviceId;
+    private String regionalKey;
     private DeliveryType deliveryType;
 }

@@ -38,12 +38,19 @@
                placeholder="Bitte Sie den Regionalschlüssel an" required
                th:field="*{regionalKey}" >
 
-        <label for="deliveryType">Schnittstellenart</label>
-        <select id="deliveryType" class="form-control" name="Schnittstellenart"
+        <label for="deliveryType">Zustellungsart</label>
+        <select id="deliveryType" class="form-control" name="Zustellungsart"
                 th:field="*{deliveryType}">
             <option value=""></option>
             <option th:each="deliveryType : ${T(de.civento.eahtools.routingrepository.db.DeliveryType).values()}"
                     th:value="${deliveryType}" th:text="${deliveryType.displayType}"></option>
+        </select>
+        <label for="interfaceType">Schnittstellenart</label>
+        <select id="interfaceType" class="form-control" name="Schnittstellenart"
+                th:field="*{interfaceType}">
+            <option value=""></option>
+            <option th:each="interfaceType : ${T(de.civento.eahtools.routingrepository.db.InterfaceType).values()}"
+                    th:value="${interfaceType}" th:text="${interfaceType.displayType}"></option>
         </select>
     </div>
         <input type="hidden" th:field="*{id}" id="id">

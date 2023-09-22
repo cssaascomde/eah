@@ -2,6 +2,7 @@ package de.civento.eahtools.routingrepository.impl.responsibility;
 
 import de.civento.eahtools.routingrepository.base.businessobjects.BusinessObject;
 import de.civento.eahtools.routingrepository.db.DeliveryType;
+import de.civento.eahtools.routingrepository.db.InterfaceType;
 import de.civento.eahtools.routingrepository.impl.ou.Ou;
 import de.civento.eahtools.routingrepository.impl.service.Service;
 import lombok.*;
@@ -17,4 +18,5 @@ public class Responsibility extends BusinessObject {
     @Builder.Default
     private DeliveryType deliveryType = DeliveryType.internal;
     private String regionalKey;
+    private InterfaceType interfaceType;
 }

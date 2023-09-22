@@ -30,4 +30,10 @@ public class ResponsibilityEntity extends BaseEntity {
     @Getter @Setter
     private DeliveryType deliveryType = DeliveryType.internal;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "interface_type", length = 16)
+    @Getter @Setter
+    private InterfaceType interfaceType;
+
+
 }

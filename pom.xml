@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.civento</groupId>
 	<artifactId>eah-tools</artifactId>
-	<version>0.9.1</version>
+	<version>0.9.4</version>
 	<name>eah-tools</name>
 	<description>eah-tools</description>
 	<properties>

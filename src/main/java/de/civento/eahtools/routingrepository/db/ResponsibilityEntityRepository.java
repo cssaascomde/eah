@@ -25,11 +25,13 @@ public interface ResponsibilityEntityRepository extends JpaRepository<Responsibi
             where (:ou_entity_id is null or :ou_entity_id = '' or r.ouEntity.id = :ou_entity_id)
             and (:service_entity_id is null or :service_entity_id = '' or r.serviceEntity.id = :service_entity_id)
             and (:deliveryType is null or r.deliveryType = :deliveryType)
+            and (:regionalKey is null or r.regionalKey = :regionalKey)
             order by r.serviceEntity.name, r.ouEntity.name""")
     Page<ResponsibilityEntity> search(
             @Param("ou_entity_id") @Nullable String ouEntityId,
             @Param("service_entity_id") @Nullable String serviceEntityId,
             @Param("deliveryType") @Nullable DeliveryType deliveryType,
+            @Param("regionalKey") @Nullable String regionalKey,
             Pageable pageable);
 
 

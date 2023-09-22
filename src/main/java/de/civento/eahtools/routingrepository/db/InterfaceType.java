@@ -2,15 +2,14 @@ package de.civento.eahtools.routingrepository.db;
 
 import lombok.Getter;
 
-public enum DeliveryType {
-    internal("interner SB-Client"),
-    xta("XTA"),
-    email("Email"),
-    portal("Portalzugang");
+public enum InterfaceType {
+    xtaWithAnswer("XTA mit Antwort"),
+    xtaWithoutAnswer("XTA ohne Antwort");
+
 
     @Getter
     private final String displayType;
-    DeliveryType(String displayType) {
+    InterfaceType(String displayType) {
         this.displayType = displayType;
     }
 }

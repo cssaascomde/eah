@@ -56,6 +56,7 @@ CREATE TABLE responsibility
     service_entity_id varchar(255),
     regional_key      varchar(12) NOT NULL,
     delivery_type     varchar(255) NOT NULL,
+    interface_type    varchar(16)
     CONSTRAINT pk_responsibility PRIMARY KEY (id)
 )
 GO
